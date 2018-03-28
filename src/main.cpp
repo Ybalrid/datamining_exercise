@@ -19,7 +19,7 @@ int main(void)
 {
 	//srand(42);
 	srand(time(nullptr));
-
+	int maxIter = 200;
 	cout << "Datamining\n";
 	HexFileLoader total("./jeu_tot");
 	HexFileLoader only_bad("./jeu_1");
@@ -98,7 +98,7 @@ int main(void)
 		A.clear();
 		B.clear();
 
-	} while(1);
+	} while(maxIter-- > 0);
 
 	return pause_before_exit();
 }
