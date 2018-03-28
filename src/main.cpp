@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "HexFileLoader.hpp"
+#include "KMode.hpp"
 
 using std::cin;
 using std::cout;
@@ -15,19 +16,10 @@ int pause_before_exit()
 int main(void)
 {
 	cout << "Datamining\n";
-	HexFileLoader loader("./jeu_tot");
+	HexFileLoader total("./jeu_tot");
+	HexFileLoader only_bad("./jeu_1");
 
-	//for(size_t i = 0; i < loader.size(); ++i)
-	//{
-	//	cout << std::hex << loader[i] << '\n';
-	//}
-
-	std::cout << "loaded " << loader.size() << " numbers from file\n";
-
-	//for(auto& number : loader)
-	//{
-	//	cout << "loaded " << number << '\n';
-	//}
+	std::cout << "dissim= " << kmode::dissimilarity(total[0], total[1]) << '\n';
 
 	return pause_before_exit();
 }
