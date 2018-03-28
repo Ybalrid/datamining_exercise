@@ -69,8 +69,8 @@ int main(void)
 			}
 		}
 
+		//Print status
 		std::cout << "objectif = " << std::dec << objectif << '\n';
-
 		std::cout << "Group A contains : " << std::dec << A.size() << " points\n";
 		std::cout << "Group B contains : " << std::dec << B.size() << " points\n";
 
@@ -81,10 +81,12 @@ int main(void)
 		std::cout << "A mean value " << std::hex << Amean << '\n';
 		std::cout << "B mean value " << std::hex << Bmean << '\n';
 
+		//Get the 3 smallest points of A and B
 		auto A3smallestDist = kmode::get3SmallestDistance(A, Amean);
 		auto B3smallestDist = kmode::get3SmallestDistance(B, Bmean);
 
-		CmpA[0] = std::get<0>(A3smallestDist);
+		//Replace our compariason kernel with them
+		CmpA[0] = std::get<0>(A3smallestDist); //std::get<X> to get Xth elem of tuple.
 		CmpA[1] = std::get<1>(A3smallestDist);
 		CmpA[2] = std::get<2>(A3smallestDist);
 

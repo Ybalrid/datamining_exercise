@@ -15,8 +15,9 @@ void HexFileLoader::load(const std::string& path)
 void HexFileLoader::convertLoadedData()
 {
 	for(const auto& str : raw_text)
-		raw_numbers.push_back(strtoul(str.c_str(), nullptr, 16));
+		raw_numbers.push_back(strtoul(str.c_str(), nullptr, 16)); //Read numbers as hexadecimal
 
+	//We don't need the raw text anymore
 	raw_text.clear();
 }
 

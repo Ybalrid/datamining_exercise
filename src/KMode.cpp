@@ -81,12 +81,15 @@ int kmode::levenstein(uint32_t a, uint32_t b)
 uint32_t kmode::mean(const kernel& k)
 {
 	int64_t acc = 0;
+
+	//Sum up everything, divide by size
 	for(auto p : k) acc += p;
 	return acc / (int64_t)k.size();
 }
 
 std::tuple<uint32_t, uint32_t, uint32_t> kmode::get3SmallestDistance(const kmode::kernel& k, uint32_t number)
 {
+	//To store the 3 smallest distance numbers, and their associated distance
 	uint32_t min[3] = { k[0], k[0], k[0] };
 	auto init		= dissimilarity(number, min[0]);
 	int minDist[3]  = { init, init, init };
@@ -100,10 +103,12 @@ std::tuple<uint32_t, uint32_t, uint32_t> kmode::get3SmallestDistance(const kmode
 			//shift the 3 distances
 			std::rotate(std::rbegin(min), std::rbegin(min) + 1, std::rend(min));
 			std::rotate(std::rbegin(minDist), std::rbegin(minDist) + 1, std::rend(minDist));
+			//Replace number 0
 			min[0]	 = point;
 			minDist[0] = currentPointDistance;
 		}
 	}
 
+	//Retrun 3 numbers with tie()
 	return std::tie(min[0], min[1], min[2]);
 }
