@@ -20,9 +20,9 @@ public:
 	//Construct a text loader, will load data imediately
 	explicit HexFileLoader(const std::string& path);
 	//Return size of loaded data
-	inline size_t size() { return raw_numbers.size(); }
+	inline size_t size() const { return raw_numbers.size(); }
 	//Return data at index "index"
-	inline uint32_t operator[](size_t index) { return raw_numbers[index]; }
+	inline uint32_t operator[](size_t index) const { return raw_numbers[index]; }
 	//raw pointer to data
 	inline uint32_t* data() { return raw_numbers.data(); }
 
