@@ -1,6 +1,7 @@
 #include "KMode.hpp"
 #include <ios>
 #include <iostream>
+#include <tuple>
 
 int kmode::dissimilarity(uint32_t a, uint32_t b)
 {
@@ -43,4 +44,34 @@ int kmode::dissimilarity(uint32_t a, uint32_t b)
 	}
 	//std::cerr << std::dec;
 	return distance;
+}
+
+uint32_t kmode::mean(const kernel& k)
+{
+	int64_t acc = 0;
+	for(auto p : k) acc += p;
+	return acc / (int64_t)k.size();
+}
+
+std::tuple<uint32_t, uint32_t, uint32_t> kmode::get3SmallestDistance(const kmode::kernel& k, uint32_t number)
+{
+	uint32_t min[3] = { k[0], k[0], k[0] };
+	auto init		= dissimilarity(number, min[0]);
+	int minDist[3]  = { init, init, init };
+	uint32_t currentPointDistance;
+	//For each point on kernel
+	for(auto point : k)
+	{
+		currentPointDistance = kmode::dissimilarity(number, point);
+		if(currentPointDistance < minDist[0])
+		{
+			//shift the 3 distances
+			std::rotate(std::rbegin(min), std::rbegin(min) + 1, std::rend(min));
+			std::rotate(std::rbegin(minDist), std::rbegin(minDist) + 1, std::rend(minDist));
+			min[0]	 = point;
+			minDist[0] = currentPointDistance;
+		}
+	}
+
+	return std::tie(min[0], min[1], min[2]);
 }
