@@ -2,6 +2,9 @@
 #include <ios>
 #include <iostream>
 #include <tuple>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
 
 int kmode::dissimilarity(uint32_t a, uint32_t b)
 {
@@ -44,6 +47,35 @@ int kmode::dissimilarity(uint32_t a, uint32_t b)
 	}
 	//std::cerr << std::dec;
 	return distance;
+}
+
+int kmode::levenstein(uint32_t a, uint32_t b)
+{
+	//Convert to string
+	std::stringstream s;
+	std::string sa, sb;
+	s << std::setw(8) << std::setfill('0') << std::hex << a;
+	sa = s.str();
+	s.str("");
+	s << std::setw(8) << std::setfill('0') << std::hex << b;
+	sb = s.str();
+
+	//Levenstein impl
+	auto dist = [](const std::string& s1, const std::string& s2) {
+		const std::size_t len1 = s1.size(), len2 = s2.size();
+		std::vector<std::vector<unsigned int>> d(len1 + 1, std::vector<unsigned int>(len2 + 1));
+
+		d[0][0] = 0;
+		for(unsigned int i = 1; i <= len1; ++i) d[i][0] = i;
+		for(unsigned int i = 1; i <= len2; ++i) d[0][i] = i;
+
+		for(unsigned int i = 1; i <= len1; ++i)
+			for(unsigned int j = 1; j <= len2; ++j)
+				d[i][j] = std::min({ d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1) });
+		return d[len1][len2];
+	};
+
+	return dist(sa, sb);
 }
 
 uint32_t kmode::mean(const kernel& k)
